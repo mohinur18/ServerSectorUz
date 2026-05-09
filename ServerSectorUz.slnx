@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ServerSectorUz.Api/ServerSectorUz.Api.csproj" />
+    <Project Path="src/ServerSectorUz.Core/ServerSectorUz.Core.csproj" />
+    <Project Path="src/ServerSectorUz.Infrastructure/ServerSectorUz.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ServerSectorUz.Tests/ServerSectorUz.Tests.csproj" />
+  </Folder>
+</Solution>
