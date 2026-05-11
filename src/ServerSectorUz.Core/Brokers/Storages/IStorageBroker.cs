@@ -28,4 +28,19 @@ public interface IStorageBroker
     DbSet<ExpenseItem> ExpenseItems { get; set; }
 
     ValueTask<int> SaveChangesAsync();
+    ValueTask<ExpenseClaim> InsertExpenseClaimAsync(ExpenseClaim expenseClaim);
+
+    IQueryable<ExpenseClaim> SelectAllExpenseClaims();
+
+    ValueTask<ExpenseClaim> SelectExpenseClaimByIdAsync(Guid expenseClaimId);
+
+    ValueTask<ExpenseClaim> UpdateExpenseClaimAsync(ExpenseClaim expenseClaim);
+
+    ValueTask<ExpenseItem> InsertExpenseItemAsync(ExpenseItem expenseItem);
+
+    IQueryable<ExpenseItem> SelectAllExpenseItems();
+
+    ValueTask<ExpenseItem> SelectExpenseItemByIdAsync(Guid expenseItemId);
+
+    ValueTask<ExpenseItem> UpdateExpenseItemAsync(ExpenseItem expenseItem);
 }
