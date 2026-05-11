@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ServerSectorUz.Core.Brokers.Storages;
 using ServerSectorUz.Core.Models.Foundations;
 using ServerSectorUz.Core.Models.Foundations.Attendance;
@@ -35,6 +36,35 @@ public class StorageBroker : DbContext, IStorageBroker
 
     public async ValueTask<int> SaveChangesAsync() =>
         await base.SaveChangesAsync();
+
+    public async ValueTask<ExpenseItem> InsertExpenseItemAsync(
+        ExpenseItem expenseItem)
+    {
+        EntityEntry<ExpenseItem> expenseItemEntityEntry =
+            await this.ExpenseItems.AddAsync(expenseItem);
+
+        await this.SaveChangesAsync();
+
+        return expenseItemEntityEntry.Entity;
+    }
+
+    public IQueryable<ExpenseItem> SelectAllExpenseItems() =>
+        this.ExpenseItems;
+
+    public async ValueTask<ExpenseItem> SelectExpenseItemByIdAsync(
+        Guid expenseItemId) =>
+            await this.ExpenseItems.FindAsync(expenseItemId);
+
+    public async ValueTask<ExpenseItem> UpdateExpenseItemAsync(
+        ExpenseItem expenseItem)
+    {
+        EntityEntry<ExpenseItem> expenseItemEntityEntry =
+            this.ExpenseItems.Update(expenseItem);
+
+        await this.SaveChangesAsync();
+
+        return expenseItemEntityEntry.Entity;
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -181,6 +211,34 @@ public class StorageBroker : DbContext, IStorageBroker
             .OnDelete(DeleteBehavior.Restrict);
 
         base.OnModelCreating(modelBuilder);
+    }
+    public async ValueTask<ExpenseClaim> InsertExpenseClaimAsync(
+    ExpenseClaim expenseClaim)
+    {
+        EntityEntry<ExpenseClaim> expenseClaimEntityEntry =
+            await this.ExpenseClaims.AddAsync(expenseClaim);
+
+        await this.SaveChangesAsync();
+
+        return expenseClaimEntityEntry.Entity;
+    }
+
+    public IQueryable<ExpenseClaim> SelectAllExpenseClaims() =>
+        this.ExpenseClaims;
+
+    public async ValueTask<ExpenseClaim> SelectExpenseClaimByIdAsync(
+        Guid expenseClaimId) =>
+            await this.ExpenseClaims.FindAsync(expenseClaimId);
+
+    public async ValueTask<ExpenseClaim> UpdateExpenseClaimAsync(
+        ExpenseClaim expenseClaim)
+    {
+        EntityEntry<ExpenseClaim> expenseClaimEntityEntry =
+            this.ExpenseClaims.Update(expenseClaim);
+
+        await this.SaveChangesAsync();
+
+        return expenseClaimEntityEntry.Entity;
     }
 
     private static void ConfigureBaseEntity(ModelBuilder modelBuilder)
