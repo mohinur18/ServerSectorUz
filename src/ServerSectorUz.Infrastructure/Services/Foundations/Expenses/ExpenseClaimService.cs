@@ -119,4 +119,49 @@ public class ExpenseClaimService : IExpenseClaimService
         return await this.storageBroker.UpdateExpenseClaimAsync(
             expenseClaim);
     }
+
+    private static void ValidateExpenseClaim(ExpenseClaim expenseClaim)
+    {
+        if (expenseClaim is null)
+        {
+            throw new ArgumentNullException(nameof(expenseClaim));
+        }
+
+        if (expenseClaim.EmployeeId == Guid.Empty)
+        {
+            throw new ArgumentException(
+                "EmployeeId is required.");
+        }
+    }
+
+    private static void ValidateExpenseClaimForSubmit(
+        ExpenseClaim expenseClaim)
+    {
+        if (expenseClaim.ExpenseItems is null ||
+            expenseClaim.ExpenseItems.Any() is false)
+        {
+            throw new ArgumentException(
+                "Expense claim must have at least one item.");
+        }
+    }
+
+    private static void ValidateApprovalStatus(
+        ExpenseClaim expenseClaim)
+    {
+        if (expenseClaim.Status != ExpenseClaimStatus.Submitted)
+        {
+            throw new InvalidOperationException(
+                "Only submitted claims can be approved or rejected.");
+        }
+    }
+
+    private static void ValidateReimburseStatus(
+        ExpenseClaim expenseClaim)
+    {
+        if (expenseClaim.Status != ExpenseClaimStatus.Approved)
+        {
+            throw new InvalidOperationException(
+                "Only approved claims can be reimbursed.");
+        }
+    }
 }
