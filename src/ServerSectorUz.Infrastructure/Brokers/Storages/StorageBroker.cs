@@ -85,6 +85,13 @@ public class StorageBroker : DbContext, IStorageBroker
         modelBuilder.Entity<EmployeeSalary>().ToTable("EmployeeSalaries");
         modelBuilder.Entity<ExpenseClaim>().ToTable("ExpenseClaims");
         modelBuilder.Entity<ExpenseItem>().ToTable("ExpenseItems");
+        modelBuilder.Entity<ExpenseClaim>()
+    .Property(expenseClaim => expenseClaim.TotalAmount)
+    .HasPrecision(18, 2);
+
+        modelBuilder.Entity<ExpenseItem>()
+            .Property(expenseItem => expenseItem.Amount)
+            .HasPrecision(18, 2);
 
         modelBuilder.Entity<User>()
             .HasIndex(user => user.Email)
